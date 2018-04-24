@@ -3,8 +3,8 @@ package application;
 
 public class Bracket {
     
-    public String[][] leftChallengerLists;
-    public String[][] rightChallengerLists;
+    public Team[][] leftChallengerLists;
+    public Team[][] rightChallengerLists;
     public int roundNum;
 
     public Bracket(String[] teamsName) {
@@ -16,11 +16,15 @@ public class Bracket {
             teamInSeries/=2;
             roundNum++;
         }
-        leftChallengerLists = new String[roundNum+1][numOfTeam/2+1];
-        rightChallengerLists = new String[roundNum+1][numOfTeam/2+1];
+        leftChallengerLists = new Team[roundNum+1][numOfTeam/2+1];
+        rightChallengerLists = new Team[roundNum+1][numOfTeam/2+1];
         for(int i=0; i<numOfTeam/2; i++) {
-            leftChallengerLists[1][i+1] = teamsName[i];
-            rightChallengerLists[1][i+1] = teamsName[numOfTeam-1-i];
+            leftChallengerLists[1][i+1] = new Team();
+            leftChallengerLists[1][i+1].name.setText(teamsName[i]);
+            leftChallengerLists[1][i+1].score.setVisible(true);
+            rightChallengerLists[1][i+1] = new Team();
+            rightChallengerLists[1][i+1].name.setText(teamsName[numOfTeam-1-i]);
+            rightChallengerLists[1][i+1].score.setVisible(true);
         }
     }
     

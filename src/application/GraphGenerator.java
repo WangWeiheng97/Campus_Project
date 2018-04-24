@@ -73,12 +73,11 @@ public class GraphGenerator {
         setupInstruction();
         // create left part 
         while (teamsInSeries != 0) {
-            // TODO setup one column (set team slot by ID (button is associated with those IDs,
-            // champion should be special))
             setupLeftSeries(primaryStage, teamsInSeries, seriesNumber);
             teamsInSeries /= 2;
             seriesNumber++;
         }
+        
         
         // set final game button
         HBox buttonBox = new HBox(10);
@@ -102,15 +101,13 @@ public class GraphGenerator {
         seriesNumber = 1;
         // create right part 
         while (teamsInSeries != 0) {
-            // TODO setup one column (set team slot by ID (button is associated with those IDs,
-            // champion should be special))
             setupRightSeries(primaryStage, teamsInSeries, seriesNumber);
             teamsInSeries /= 2;
             seriesNumber++;
         }
 
-        // TODO setup the champion slot
 
+        // show in the stage
         root.getChildren().add(grid);
         // grid.setGridLinesVisible(true);
         AnchorPane.setLeftAnchor(grid, 0.0);
@@ -118,7 +115,7 @@ public class GraphGenerator {
         AnchorPane.setTopAnchor(grid, 0.0);
         AnchorPane.setBottomAnchor(grid, 0.0);
         // root.setStyle("-fx-background-color: yellow");
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1800, 900);
 
         scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
 
@@ -129,8 +126,6 @@ public class GraphGenerator {
 
     private static void setupLeftSeries(Stage primaryStage, int teamsInSeries, int seriesNumber) {
 
-        // TODO setup the first column: should ordered by the seed, set team slot by ID (button is
-        // associated with those IDs)
 
         // If this is the first round, then setup the total rows we need to in this bracket and set the instruction 
         if (seriesNumber == 1) {
@@ -145,59 +140,20 @@ public class GraphGenerator {
         }
 
         for (int i = 1; i <= teamsInSeries; i++) {
-
-            StackPane stack = new StackPane();
-            HBox teamBox = new HBox(10);
-
-            // show the boundary of teamBox
-            teamBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
-                            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
-                            + "-fx-border-radius: 5;" + "-fx-border-color: blue;");
-
-
-
-            // Label teamName = new Label(teamsName[i]);
-            Label teamName = new Label();
-            TextField score = new TextField();
-            score.setVisible(false);
-            score.setPrefWidth(120);
-            score.setPromptText("Enter score here");
-            // If according challenger exist
-            if(bracket.leftChallengerLists[seriesNumber][i]!=null) {
-                teamName.setText(bracket.leftChallengerLists[seriesNumber][i]);
-                score.setVisible(true);
+            
+            if(seriesNumber!=1) {
+                bracket.leftChallengerLists[seriesNumber][i] = new Team();
             }
 
-            // set id for every teamBox
-//            teamBox.setId(new String(seriesNumber + "." + i));
-
-            teamName.setAlignment(Pos.CENTER_LEFT);
-            score.setAlignment(Pos.CENTER_RIGHT);
-            teamBox.getChildren().add(teamName);
-            stack.getChildren().add(score);
-            stack.setAlignment(Pos.CENTER_RIGHT);
-            teamBox.getChildren().add(stack);
-            HBox.setHgrow(stack, Priority.ALWAYS);
 
             // set button and action
             if (numOfTeam/2 != teamsInSeries) {
-                HBox buttonBox = new HBox(10);
-                Button VSbutton = new Button("VS");
+                VSButton vsButton = new VSButton(bracket.leftChallengerLists, seriesNumber, i);
 
-                // set action
-                VSbutton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-//                        (HBox) grid.lookup("#1.1");
-                        // TODO
-                    }
-                });
-                buttonBox.getChildren().add(VSbutton);
-                buttonBox.setAlignment(Pos.CENTER);
-                grid.add(buttonBox, seriesNumber - 2, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
+                grid.add(vsButton.buttonBox, seriesNumber - 2, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
                                 + (i-1) * Math.pow(2, seriesNumber)));
             }
-            grid.add(teamBox, seriesNumber - 1, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
+            grid.add(bracket.leftChallengerLists[seriesNumber][i].teamBox, seriesNumber - 1, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
                             + (i-1) * Math.pow(2, seriesNumber)));
 
 
@@ -213,58 +169,17 @@ public class GraphGenerator {
 
         for (int i = 1; i <= teamsInSeries; i++) {
 
-            StackPane stack = new StackPane();
-            HBox teamBox = new HBox(10);
-
-            // show the boundary of teamBox
-            teamBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
-                            + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
-                            + "-fx-border-radius: 5;" + "-fx-border-color: blue;");
-
-
-
-            // Label teamName = new Label(teamsName[i]);
-            Label teamName = new Label();
-            TextField score = new TextField();
-            score.setVisible(false);
-            score.setPrefWidth(120);
-            score.setPromptText("Enter score here");
-            // If according challenger exist
-            if(bracket.rightChallengerLists[seriesNumber][i]!=null) {
-                teamName.setText(bracket.rightChallengerLists[seriesNumber][i]);
-                score.setVisible(true);
+            if(seriesNumber!=1) {
+                bracket.rightChallengerLists[seriesNumber][i] = new Team();
             }
-
-            // set id for every teamBox
-//            teamBox.setId(new String(seriesNumber + "." + i));
-
-            teamName.setAlignment(Pos.CENTER_LEFT);
-            score.setAlignment(Pos.CENTER_RIGHT);
-            stack.setAlignment(Pos.CENTER_RIGHT);
-            teamBox.getChildren().add(stack);
-            teamBox.getChildren().add(teamName);
-            stack.getChildren().add(score);
-            HBox.setHgrow(stack, Priority.ALWAYS);
 
             // set button and action
             if (numOfTeam/2 != teamsInSeries) {
-                HBox buttonBox = new HBox(10);
-                Button VSbutton = new Button("VS");
-
-                // set action
-                VSbutton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-//                        (HBox) grid.lookup("#1.1");
-                        // TODO
-                    }
-                });
-                buttonBox.getChildren().add(VSbutton);
-                buttonBox.setAlignment(Pos.CENTER);
-                grid.add(buttonBox, bracket.roundNum*2+2-seriesNumber+1, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
+                VSButton vsButton = new VSButton(bracket.rightChallengerLists, seriesNumber, i);
+                grid.add(vsButton.buttonBox, bracket.roundNum*2+2-seriesNumber+1, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
                                 + (i-1) * Math.pow(2, seriesNumber)));
             }
-            grid.add(teamBox, bracket.roundNum*2+2-seriesNumber, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
+            grid.add(bracket.rightChallengerLists[seriesNumber][i].teamBox, bracket.roundNum*2+2-seriesNumber, (int) ((Math.pow(2, (seriesNumber - 1)) - 1)
                             + (i-1) * Math.pow(2, seriesNumber)));
 
 
