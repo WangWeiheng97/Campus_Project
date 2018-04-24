@@ -14,7 +14,8 @@ public class Team {
     public HBox teamBox;
 
     public Team() {
-        StackPane stack = new StackPane();
+        StackPane scoreStack = new StackPane();
+        StackPane nameStack = new StackPane();
         teamBox = new HBox(10);
         name = new Label();
         score = new TextField();
@@ -23,6 +24,8 @@ public class Team {
         teamBox.setStyle("-fx-padding: 10;" + "-fx-border-style: solid inside;"
                         + "-fx-border-width: 2;" + "-fx-border-insets: 5;"
                         + "-fx-border-radius: 5;" + "-fx-border-color: blue;");
+        
+        teamBox.setMaxHeight(0);
 
 
 
@@ -33,11 +36,13 @@ public class Team {
 
         name.setAlignment(Pos.CENTER_LEFT);
         score.setAlignment(Pos.CENTER_RIGHT);
-        teamBox.getChildren().add(name);
-        stack.getChildren().add(score);
-        stack.setAlignment(Pos.CENTER_RIGHT);
-        teamBox.getChildren().add(stack);
-        HBox.setHgrow(stack, Priority.ALWAYS);
+        scoreStack.getChildren().add(score);
+        scoreStack.setAlignment(Pos.CENTER_RIGHT);
+        nameStack.getChildren().add(name);
+        nameStack.setAlignment(Pos.CENTER_LEFT);
+        teamBox.getChildren().add(scoreStack);
+        teamBox.getChildren().add(nameStack);
+        HBox.setHgrow(nameStack, Priority.ALWAYS);
     }
     
     

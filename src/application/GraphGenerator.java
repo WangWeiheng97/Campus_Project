@@ -70,7 +70,6 @@ public class GraphGenerator {
         int teamsInSeries = numOfTeam/2;
         int seriesNumber = 1;
 
-        setupInstruction();
         // create left part 
         while (teamsInSeries != 0) {
             setupLeftSeries(primaryStage, teamsInSeries, seriesNumber);
@@ -115,7 +114,7 @@ public class GraphGenerator {
         AnchorPane.setTopAnchor(grid, 0.0);
         AnchorPane.setBottomAnchor(grid, 0.0);
         // root.setStyle("-fx-background-color: yellow");
-        Scene scene = new Scene(root, 1800, 900);
+        Scene scene = new Scene(root, 1600, 900);
 
         scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
 
@@ -129,14 +128,15 @@ public class GraphGenerator {
 
         // If this is the first round, then setup the total rows we need to in this bracket and set the instruction 
         if (seriesNumber == 1) {
-            int numRows = numOfTeam -1;
+            int numRows = numOfTeam;
             for (int i = 0; i < numRows; i++) {
                 RowConstraints rc = new RowConstraints();
                 rc.setPercentHeight(100.0 / numRows);
                 grid.getRowConstraints().add(rc);
             }
-//            Label labelInstruction = new Label("Enter the scores and click the button!");
-//            grid.add(labelInstruction, 3, numRows);
+            //set up the instruction
+            Label labelInstruction = new Label("Enter the scores and click the button!");
+            grid.add(labelInstruction, bracket.roundNum, numRows-1);
         }
 
         for (int i = 1; i <= teamsInSeries; i++) {
@@ -187,12 +187,6 @@ public class GraphGenerator {
         }
 
 
-    }
-    
-    
-    
-    private static void setupInstruction() {
-        // TODO setup instruction
     }
     
     
