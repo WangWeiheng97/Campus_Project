@@ -1,8 +1,11 @@
 package application;
 
+
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -34,7 +37,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        try {
+    	try {
             teamsName = Files.lines(Paths.get("teams"))
                             .map(String::trim)
                             .filter(x->x!=null && !x.equals(""))

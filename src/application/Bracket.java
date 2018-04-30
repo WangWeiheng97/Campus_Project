@@ -5,6 +5,8 @@ public class Bracket {
     
     public Team[][] leftChallengerLists;
     public Team[][] rightChallengerLists;
+    public String[] thirdPlaceName = new String[2];
+    public Integer[] thirdPlaceScore = new Integer[2];
     public int roundNum;
 
     public Bracket(String[] teamsName) {
@@ -29,14 +31,35 @@ public class Bracket {
     }
     
     
-    private String[] reorder(String[] teamsName) {
-        return teamsName;
-        // TODO reorder teams
-//        String[] orderedTeams = new String[teamsName.length];
-//        for(int i=1; i<=teamsName.length; i++) {
-//            
-//        }
-//        return orderedTeams;
+    private String[] reorder (String[] teams) {
+        int[] order = reorder(teams.length);
+        String[] reordered = new String[teams.length];
+        for (int i = 0; i <= teams.length - 1; i++) {
+            reordered[i] = teams[order[i]];
+        }
+        return reordered;
+    }
+    
+    private int[] reorder(int teamNum) {
+        int[] array = new int[teamNum];
+        int[] prev;
+        int i;
+        
+        if (teamNum <= 2)
+        {
+            array[0] = 0;
+            array[1] = 1;
+            return array;
+        }
+        
+        prev = reorder(teamNum/2);
+        for(i=0;i< teamNum; i+=2)
+        {
+            array[i] = prev[i/2];
+            array[i + 1] = teamNum -1 - array[i];
+        }
+         return array;
+        
     }
 
     
